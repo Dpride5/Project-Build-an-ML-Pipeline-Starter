@@ -51,15 +51,8 @@ def go(config: DictConfig):
             )
 
         if "basic_cleaning" in active_steps:
-            _ = hydra.utils.instantiate(
-        config.basic_cleaning,
-        input_artifact=config.basic_cleaning.input_artifact,
-        output_artifact=config.basic_cleaning.output_artifact,
-        output_type=config.basic_cleaning.output_type,
-        output_description=config.basic_cleaning.output_description,
-        min_price=config.basic_cleaning.min_price,
-        max_price=config.basic_cleaning.max_price
-    )
+            _ = hydra.utils.instantiate(config.basic_cleaning)
+        
             pass
 
         if "data_check" in active_steps:
