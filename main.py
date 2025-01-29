@@ -54,7 +54,7 @@ def go(config: DictConfig):
             print("Executing basic_cleaning step...")
             _ = mlflow.run(
                 uri="https://github.com/Dpride5/Project-Build-an-ML-Pipeline-Starter.git",
-                entry_point="basic_cleaning",
+                entry_point="main",
                 env_manager="conda",
                 parameters={
                 "input_artifact": config["etl"]["sample"],  # Pull sample name from config.yaml
