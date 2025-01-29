@@ -53,16 +53,17 @@ def go(config: DictConfig):
         if "basic_cleaning" in active_steps:
             print("Executing basic_cleaning step...")
             _ = mlflow.run(
-            "https://github.com/Dpride5/Project-Build-an-ML-Pipeline-Starter/tree/main/src/basic_cleaning",
-            version="main",
-            env_manager="conda",
-            parameters={
-                "input_artifact": "sample.csv",
-                "artifact_name": "cleaned_data.csv",
-                "artifact_type": "cleaned_data",
-                "artifact_description": "Data with basic cleaning applied",
-                "min_price": config["etl"]["min_price"],
-                "max_price": config["etl"]["max_price"]
+                f"{config['main']['components_repository']}/src/basic_cleaning",
+                "main",
+                version="main",
+                env_manager="conda",
+                parameters={
+                "input_artifact": config["etl"]["sample"],  # Pull sample name from config.yaml
+                "output_artifact": "clean_sample.csv",      # Define output name
+                "output_type": "clean_data",               # Define output type
+                "output_description": "Cleaned dataset",   # Describe the output
+                "min_price": config["etl"]["min_price"],   # Pull min_price from config.yaml
+                "max_price": config["etl"]["max_price"],   # Pull max_price from config.yaml
             }
         )
         pass
