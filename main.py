@@ -61,8 +61,8 @@ def go(config: DictConfig):
                 "output_artifact": "clean_sample.csv",      # Define output name
                 "output_type": "clean_data",               # Define output type
                 "output_description": "Cleaned dataset",   # Describe the output
-                "min_price": config["etl"]["min_price"],   # Pull min_price from config.yaml
-                "max_price": config["etl"]["max_price"],   # Pull max_price from config.yaml
+                "min_price": float(config["etl"]["min_price"]),   # Pull min_price from config.yaml
+                "max_price": float(config["etl"]["max_price"]),   # Pull max_price from config.yaml
                 }
             )
             pass
