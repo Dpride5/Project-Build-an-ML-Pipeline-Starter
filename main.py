@@ -68,7 +68,6 @@ def go(config: DictConfig):
                 entry_point="main",
                 env_manager="conda",
                 parameters={},
-                use_conda=True,
                 overrides=mlflow_args
             )
 
