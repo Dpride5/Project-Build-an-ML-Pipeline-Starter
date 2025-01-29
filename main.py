@@ -53,7 +53,7 @@ def go(config: DictConfig):
         if "basic_cleaning" in active_steps:
             print("Executing basic_cleaning step...")
             _ = mlflow.run(
-                uri="https://github.com/Dpride5/Project-Build-an-ML-Pipeline-Starter/src/basic_cleaning",
+                uri="src/basic_cleaning",
                 entry_point="main",
                 env_manager="conda",
                 parameters={
