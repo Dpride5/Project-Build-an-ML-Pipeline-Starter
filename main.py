@@ -65,7 +65,6 @@ def go(config: DictConfig):
                 "max_price": float(config["etl"]["max_price"]),   # Pull max_price from config.yaml
                 }
             )
-            pass
 
         if "data_check" in active_steps:
             ##################
