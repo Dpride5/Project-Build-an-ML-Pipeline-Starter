@@ -53,20 +53,7 @@ def go(config: DictConfig):
         if "basic_cleaning" in active_steps:
             print("Executing basic_cleaning step...")
             # Prepare arguments to pass to Hydra as command-line arguments
-            parameters = {
-                "input_artifact": "sample.csv",
-                "output_artifact": "clean_sample.csv",
-                "output_type": "clean_data",
-                "output_description": "Cleaned dataset",
-                "min_price": float(config["etl"]["min_price"]),
-                "max_price": float(config["etl"]["max_price"]),
-            }
-            _ = mlflow.run(
-                uri="https://github.com/Dpride5/Project-Build-an-ML-Pipeline-Starter.git",
-                entry_point="main",
-                env_manager="conda",
-                parameters=parameters
-            )
+            go(args)
 
         if "data_check" in active_steps:
             ##################
