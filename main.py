@@ -54,7 +54,7 @@ def go(config: DictConfig):
             print("Executing basic_cleaning step...")
             # Prepare arguments to pass to Hydra as command-line arguments
             parameters = {
-                "input_artifact": "sample1.csv",
+                "input_artifact": "sample.csv",
                 "output_artifact": "clean_sample.csv",
                 "output_type": "clean_data",
                 "output_description": "Cleaned dataset",
