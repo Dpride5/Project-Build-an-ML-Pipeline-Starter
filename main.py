@@ -62,7 +62,7 @@ def go(config: DictConfig):
                 "max_price": float(config["etl"]["max_price"]),
             }
             _ = mlflow.run(
-                uri="https://github.com/Dpride5/Project-Build-an-ML-Pipeline-Starter.git",
+                uri="C:/Users/dario/Desktop/WGU GitHub/Project-Build-an-ML-Pipeline-Starter/src/basic_cleaning/run.py",
                 entry_point="main",
                 env_manager="conda",
                 parameters=parameters
