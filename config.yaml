@@ -37,7 +37,7 @@ modeling:
     # DO not change the following
     oob_score: true
 
-    a_params:
+a_params:
   download:
     artifact_name: "sample.csv"
     artifact_type: "raw_data"
