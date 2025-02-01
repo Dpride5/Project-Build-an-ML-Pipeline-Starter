@@ -73,7 +73,7 @@ def go(args):
 
     ######################################
     # Fit the pipeline sk_pipe by calling the .fit method on X_train and y_train
-    # YOUR CODE HERE
+    sk_pipe.fit(X_train[processed_features], y_train)
     ######################################
 
     # Compute r2 and MAE
@@ -95,22 +95,33 @@ def go(args):
     ######################################
     # Save the sk_pipe pipeline as a mlflow.sklearn model in the directory "random_forest_dir"
     # HINT: use mlflow.sklearn.save_model
-    mlflow.sklearn.save_model(
-        # YOUR CODE HERE
-        input_example = X_train.iloc[:5]
-    )
     ######################################
 
+    signature = infer_signature(X_val[processed_features], y_val)
 
-    # Upload the model we just exported to W&B
-    artifact = wandb.Artifact(
-        args.output_artifact,
-        type = 'model_export',
-        description = 'Trained ranfom forest artifact',
-        metadata = rf_config
-    )
-    artifact.add_dir('random_forest_dir')
-    run.log_artifact(artifact)
+    with tempfile.TemporaryDirectory() as temp_dir:
+
+        export_path = os.path.join(temp_dir, "random_forest_dir")
+
+        mlflow.sklearn.save_model(
+            sk_pipe,
+            export_path,
+            serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE,
+            signature=signature,
+            input_example=X_val.iloc[:2],
+        )
+
+        # Upload the model we just exported to W&B
+        artifact = wandb.Artifact(
+            args.output_artifact,
+            type = 'model_export',
+            description = 'Random Forest model exported as MLFlow model',
+        )
+        artifact.add_dir(export_path)
+        run.log_artifact(artifact)
+
+        # Allowing artifact to be uploaded in time
+        artifact.wait()
 
     # Plot feature importance
     fig_feat_imp = plot_feature_importance(sk_pipe, processed_features)
@@ -119,7 +130,7 @@ def go(args):
     # Here we save variable r_squared under the "r2" key
     run.summary['r2'] = r_squared
     # Now save the variable mae under the key "mae".
-    # YOUR CODE HERE
+    run.summary("mae") = mae
     ######################################
 
     # Upload to W&B the feture importance visualization
@@ -162,7 +173,8 @@ def get_inference_pipeline(rf_config, max_tfidf_features):
     # 1 - A SimpleImputer(strategy="most_frequent") to impute missing values
     # 2 - A OneHotEncoder() step to encode the variable
     non_ordinal_categorical_preproc = make_pipeline(
-        # YOUR CODE HERE
+        SimpleImputer(strategy="most_frequent"),
+        OneHotEncoder(handle_unknown="ignore")
     )
     ######################################
 
@@ -225,7 +237,8 @@ def get_inference_pipeline(rf_config, max_tfidf_features):
 
     sk_pipe = Pipeline(
         steps =[
-        # YOUR CODE HERE
+            ("preprocessor", preprocessor),
+            ("random_forest", random_Forest)
         ]
     )
 
