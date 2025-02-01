@@ -69,8 +69,8 @@ def go(config: DictConfig):
                 os.path.join(hydra.utils.get_original_cwd(), "src", "data_check"),
                 "main",
                 parameters={
-                    "csv": config["m_params"]["data_check"]["csv"],
-                    "ref": config["m_params"]["data_check"]["ref"],
+                    "csv": config["a_params"]["data_check"]["csv"],
+                    "ref": config["a_params"]["data_check"]["ref"],
                     "kl_threshold": config["data_check"]["kl_threshold"],
                     "min_price": config["etl"]["min_price"],
                     "max_price": config["etl"]["max_price"]
