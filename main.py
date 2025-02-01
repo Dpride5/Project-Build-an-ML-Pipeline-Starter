@@ -44,17 +44,26 @@ def go(config: DictConfig):
                 env_manager="conda",
                 parameters={
                     "sample": config["etl"]["sample"],
-                    "artifact_name": "sample.csv",
-                    "artifact_type": "raw_data",
-                    "artifact_description": "Raw file as downloaded"
+                    "artifact_name": config["a_params"]["download"]["artifact_name"],
+                    "artifact_type": config["a_params"]["download"]["artifact_type"],
+                    "artifact_description": config["a_params"]["download"]["artifact_description"]
                 },
             )
 
         if "basic_cleaning" in active_steps:
-            print("Executing basic_cleaning step...")
-            # Prepare arguments to pass to Hydra as command-line arguments
-            go(args)
-
+            _ = mlflow.run(
+                os.path.join(hydra.utils.get_original_cwd(), "src", "basic_cleaning"),
+                "main",
+                parameters={
+                    "input_artifact": config["a_params"]["basic_cleaning"]["input_artifact"],
+                    "output_artifact": config["a_params"]["basic_cleaning"]["output_artifact"],
+                    "output_type": config["a_params"]["basic_cleaning"]["output_type"],
+                    "output_description": config["a_params"]["basic_cleaning"]["output_description"],
+                    "min_price": config['etl']['min_price'],
+                    "max_price": config['etl']['max_price']
+                },
+            )
+        
         if "data_check" in active_steps:
             ##################
             # Implement here #
