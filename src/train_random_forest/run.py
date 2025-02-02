@@ -99,6 +99,10 @@ def go(args):
     # HINT: use mlflow.sklearn.save_model
     ######################################
 
+    # Ensure all object columns are cast to strings
+    for col in X_val.select_dtypes(include=["object"]).columns:
+        X_val[col] = X_val[col].astype(str)
+
     signature = infer_signature(X_val[processed_features], y_val)
 
     with tempfile.TemporaryDirectory() as temp_dir:
